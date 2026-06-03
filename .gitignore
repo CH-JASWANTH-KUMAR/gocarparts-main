@@ -1,0 +1,53 @@
+# XAMPP
+xampp/
+
+# Logs
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Dependencies
+node_modules/
+vendor/
+
+# Environment
+.env
+.env.local
+.env.production
+
+# Cache
+product_cache_*.json
+
+# Backups
+*.bak
+*.bak2
+*.bak3
+*.bak4
+
+# Archives
+*.zip
+*.rar
+*.7z
+
+# Videos
+*.mp4
+*.mov
+*.avi
+
+# Scratch
+scratch/
+*/scratch/
+
+# Test files
+testdb.php
+dbtest.php
+copy_db.php
+
+# Local config backups
+config_backup.php
