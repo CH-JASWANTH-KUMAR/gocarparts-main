@@ -392,15 +392,7 @@ ensureSession();
            <div class="col-lg-8">
 <div class="horizontal-results" style="overflow-x: auto; white-space: nowrap; border: 1px solid transparent; border-radius: 8px; padding: 20px; background-color: transparent; min-height: 100%;">
 <?php
-$host = "localhost";
-$user = "root";
-$password = "";
-$dbname = "u537919873_8tQUn";
-
 require_once __DIR__ . '/db.php';
-if (false) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 $make     = $_GET['make']     ?? '';
 $model    = $_GET['model']    ?? '';
@@ -419,17 +411,27 @@ if (preg_match('/(\d+\.\d+L)/i', $submodel, $match)) {
     $engine = strtolower(trim($match[1]));
 }
 
+// Query using correct database columns
 $sql = "
-SELECT p.id, p.name,
-    p.price,
-    p.category,
-    p.image_url AS img
+SELECT p.id, p.year, p.make, p.model, p.submodel, p.price, p.category, p.image
 FROM products p
-WHERE LOWER(p.name) LIKE '%" . strtolower($makeSanitized) . "%'
-AND LOWER(p.name) LIKE '%" . strtolower($modelSanitized) . "%'
-AND LOWER(p.category) LIKE '%" . strtolower($categoryFilter) . "%'
-ORDER BY p.id DESC
-LIMIT 50";
+WHERE 1=1";
+if (!empty($makeSanitized)) {
+    $sql .= " AND LOWER(p.make) = '" . strtolower($makeSanitized) . "'";
+}
+if (!empty($modelSanitized)) {
+    $sql .= " AND LOWER(p.model) = '" . strtolower($modelSanitized) . "'";
+}
+if (!empty($categoryFilter)) {
+    $sql .= " AND LOWER(p.category) LIKE '%" . strtolower($categoryFilter) . "%'";
+}
+if ($year > 0) {
+    $sql .= " AND p.year = $year";
+}
+if (!empty($submodel)) {
+    $sql .= " AND LOWER(p.submodel) LIKE '%" . strtolower($conn->real_escape_string($submodel)) . "%'";
+}
+$sql .= " ORDER BY p.id DESC LIMIT 50";
 
 $result = $conn->query($sql);
 $shownTitles = [];
@@ -437,58 +439,70 @@ $found = false;
 
 if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $title = strtolower($row['name']);
+        $rawTitle = trim(
+            ($row['year'] ?? '') . ' ' .
+            ($row['make'] ?? '') . ' ' .
+            ($row['model'] ?? '')
+        );
+        if (!empty($row['submodel'])) {
+            $rawTitle .= ' - ' . $row['submodel'];
+        }
+        $title = strtolower($rawTitle);
 
         if (in_array($title, $shownTitles)) continue;
         $shownTitles[] = $title;
 
-        $yearMatch = false;
-        if (preg_match('/(\d{4})\s*[-–]\s*(\d{4})/', $title, $range)) {
-            $yearMatch = ($year >= (int)$range[1] && $year <= (int)$range[2]);
-        } elseif (preg_match('/\b(\d{4})\b/', $title, $single)) {
-            $yearMatch = ($year == (int)$single[1]);
-        }
-        if (!$yearMatch) continue;
-
         if ($engine && strpos($title, $engine) === false) continue;
 
         $found = true;
-        $img = $row['img'] ?: 'https://via.placeholder.com/300x200?text=No+Image';
+        
+        // Comma splitting for image
+        $img = trim($row['image'] ?? '');
+        if (strpos($img, ',') !== false) {
+            $parts = explode(',', $img);
+            $img = trim($parts[0]);
+        }
+        if (empty($img)) {
+            $categoryLower = strtolower($row['category'] ?? '');
+            if (strpos($categoryLower, 'engine') !== false) {
+                $img = 'assets/img/product/engine-placeholder.png';
+            } else {
+                $img = 'assets/img/product/transmission-placeholder.png';
+            }
+        }
+        
         $price = is_numeric($row['price']) ? '$' . number_format($row['price'], 2) : 'N/A';
         $category = htmlspecialchars($row['category']);
-        $productTitle = htmlspecialchars($row['post_title']);
+        $productTitle = htmlspecialchars($rawTitle);
 
         echo '<div class="product-card" style="display: inline-block; width: 250px; margin-right: 15px; vertical-align: top; border: 1px solid #ccc; border-radius: 8px; padding: 10px; background-color: #fff;">';
 
-echo '<img src="' . $img . '" alt="Product Image" style="width: 100%; height: 150px; object-fit: cover; border-radius: 4px;">';
+        echo '<img src="' . $img . '" alt="Product Image" style="width: 100%; height: 150px; object-fit: cover; border-radius: 4px;">';
 
-echo '<h3 style="font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 10px;" title="' . $productTitle . '">' . $productTitle . '</h3>';
+        echo '<h3 style="font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 10px;" title="' . $productTitle . '">' . $productTitle . '</h3>';
 
-echo "<p><strong>Category:</strong> $category</p>";
-echo "<p><strong>Price:</strong></p><h3 style='margin-top: 0;'>$price</h3>";
+        echo "<p><strong>Category:</strong> $category</p>";
+        echo "<p><strong>Price:</strong></p><h3 style='margin-top: 0;'>$price</h3>";
 
-echo '<div style="display: flex; gap: 10px; margin-top: 10px;">';
+        echo '<div style="display: flex; gap: 10px; margin-top: 10px;">';
 
-echo '<a href="product-details.php?id=' . $row['ID'] . '" 
-        class="search__filter--btn primary__btn" 
-        style="flex: 1; background-color: #e74c3c; color: #fff; text-align: center; padding: 10px 0; border-radius: 6px; text-decoration: none; font-weight: bold;">
-        View Product
-      </a>';
+        echo '<a href="product-details.php?id=' . $row['id'] . '" 
+                class="search__filter--btn primary__btn" 
+                style="flex: 1; background-color: #e74c3c; color: #fff; text-align: center; padding: 10px 0; border-radius: 6px; text-decoration: none; font-weight: bold;">
+                View Product
+              </a>';
 
-echo '<a href="#" 
-        class="search__filter--btn primary__btn" 
-        data-product-id="' . $row['ID'] . '" 
-        onclick="handleAddToCart(event)" 
-        style="flex: 1; background-color: #e74c3c; color: #fff; text-align: center; padding: 10px 0; border-radius: 6px; text-decoration: none; font-weight: bold;">
-        Add to Cart
-      </a>';
+        echo '<a href="#" 
+                class="search__filter--btn primary__btn" 
+                data-product-id="' . $row['id'] . '" 
+                onclick="handleAddToCart(event)" 
+                style="flex: 1; background-color: #e74c3c; color: #fff; text-align: center; padding: 10px 0; border-radius: 6px; text-decoration: none; font-weight: bold;">
+                Add to Cart
+              </a>';
 
-echo '</div>'; // button row
+        echo '</div>'; // button row
 
-echo '</div>'; // card
-
-
-    
+        echo '</div>'; // card
     }
 }
 
@@ -540,7 +554,6 @@ if (!$found) {
 }
 
 
-$conn->close();
 ?>
 </div>
 </div>
@@ -730,14 +743,11 @@ $make = $_GET['make'] ?? '';
 $make = $conn->real_escape_string(trim($make));
 $found = false;
 
-// Query: Fetch all products with the make in the title
+// Query: Fetch all products with the make matching
 $sql = "
-SELECT p.id, p.name,
-    p.price,
-    p.category,
-    p.image_url AS img
+SELECT p.id, p.year, p.make, p.model, p.submodel, p.price, p.category, p.image
 FROM products p
-WHERE LOWER(p.name) LIKE '%" . strtolower($make) . "%'
+WHERE LOWER(p.make) = '" . strtolower($make) . "'
 ORDER BY p.id DESC
 ";
 
@@ -745,10 +755,34 @@ $result = $conn->query($sql);
 
 if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $img = $row['img'] ?: 'https://via.placeholder.com/300x200?text=No+Image';
+        // Build dynamic title
+        $rawTitle = trim(
+            ($row['year'] ?? '') . ' ' .
+            ($row['make'] ?? '') . ' ' .
+            ($row['model'] ?? '')
+        );
+        if (!empty($row['submodel'])) {
+            $rawTitle .= ' - ' . $row['submodel'];
+        }
+        
+        // Process image
+        $img = trim($row['image'] ?? '');
+        if (strpos($img, ',') !== false) {
+            $parts = explode(',', $img);
+            $img = trim($parts[0]);
+        }
+        if (empty($img)) {
+            $categoryLower = strtolower($row['category'] ?? '');
+            if (strpos($categoryLower, 'engine') !== false) {
+                $img = 'assets/img/product/engine-placeholder.png';
+            } else {
+                $img = 'assets/img/product/transmission-placeholder.png';
+            }
+        }
+        
         $price = is_numeric($row['price']) ? '$' . number_format($row['price'], 2) : 'N/A';
         $cat = htmlspecialchars($row['category']);
-        $postTitle = htmlspecialchars($row['name']);
+        $postTitle = htmlspecialchars($rawTitle);
 
         echo '<div class="product-card" style="display: inline-block; width: 250px; margin-right: 15px; vertical-align: top; border: 1px solid #ddd; border-radius: 10px; padding: 10px; background: #fff;">';
         echo '<img src="' . $img . '" alt="Product Image" style="width: 100%; height: 160px; object-fit: cover; border-radius: 6px;">';
@@ -763,7 +797,7 @@ if ($result && $result->num_rows > 0) {
         " title="' . $postTitle . '">' . $postTitle . '</h3>';
         echo "<p style='margin: 5px 0;'><strong>Category:</strong> $cat</p>";
         echo "<p style='margin: 5px 0;color:red'><strong>Price:</strong> <h3>$price</h3></p>";
-        echo '<a href="product-details.php?id=' . $row['ID'] . '" style="display: block; text-align: center; background-color: #e74c3c; color: #fff; padding: 10px; border-radius: 4px; text-decoration: none;">View Product</a>';
+        echo '<a href="product-details.php?id=' . $row['id'] . '" style="display: block; text-align: center; background-color: #e74c3c; color: #fff; padding: 10px; border-radius: 4px; text-decoration: none;">View Product</a>';
         echo '</div>';
 
         $found = true;

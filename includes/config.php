@@ -21,8 +21,8 @@ define('DB_NAME', 'u537919873_8tqun_real');
 // Razorpay Configuration
 // define('RAZORPAY_KEY_ID', getenv('RAZORPAY_KEY_ID') ?: '');
 // define('RAZORPAY_KEY_SECRET', getenv('RAZORPAY_KEY_SECRET') ?: '');
-define('RAZORPAY_KEY_ID', '');
-define('RAZORPAY_KEY_SECRET', '');
+define('RAZORPAY_KEY_ID', getenv('RAZORPAY_KEY_ID') ?: '');
+define('RAZORPAY_KEY_SECRET', getenv('RAZORPAY_KEY_SECRET') ?: '');
 // Application Configuration
 define('APP_ENV', getenv('APP_ENV') ?: 'development');
 define('APP_BASE_URL', getenv('APP_BASE_URL') ?: 'http://localhost');

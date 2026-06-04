@@ -138,14 +138,9 @@ while ($row = $result->fetch_assoc()) {
         $parts = explode(',', $image);
         $image = trim($parts[0]);
     }
-    // Fallback image url if empty (category-specific)
+    // Fallback image url if empty
     if (empty($image)) {
-        $categoryLower = strtolower($row['category'] ?? '');
-        if (strpos($categoryLower, 'engine') !== false) {
-            $image = 'assets/img/product/engine-placeholder.png';
-        } else {
-            $image = 'assets/img/product/transmission-placeholder.png';
-        }
+        $image = 'assets/img/product/product-placeholder.png'; // A local placeholder
     }
 
     $out[] = [

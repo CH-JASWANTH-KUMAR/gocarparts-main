@@ -371,7 +371,7 @@ document.getElementById('pay-button').onclick = function (e) {
 
         // ✅ Step 3: Configure Razorpay options
         var options = {
-            key: "rzp_test_YTFvGbR4erKz2B",
+            key: "<?php echo htmlspecialchars(RAZORPAY_KEY_ID); ?>",
             amount: data.amount,
             currency: "INR",
             name: "Demo Test",
@@ -392,6 +392,8 @@ document.getElementById('pay-button').onclick = function (e) {
                     body: JSON.stringify({
                         order_id: orderId,
                         payment_id: response.razorpay_payment_id,
+                        razorpay_order_id: response.razorpay_order_id,
+                        razorpay_signature: response.razorpay_signature,
                         cart_data: cartData
                     })
                 })

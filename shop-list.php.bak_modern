@@ -7,44 +7,182 @@ ensureSession();
 
 <head>
   <meta charset="utf-8">
-  <title>premium-Car Parts</title>
+  <title>Premium - Car Parts - Shop List</title>
   <meta name="description" content="Morden Bootstrap HTML5 Template">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="shortcut icon" type="image/x-icon" href="assets/img/logo.jpg">
     
-  <!-- ======= All CSS Plugins here ======== -->
-  <link rel="stylesheet" href="assets/css/plugins/swiper-bundle.min.css">
-  <link rel="stylesheet" href="assets/css/plugins/glightbox.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700&family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500&display=swap" rel="stylesheet">
+   <!-- ======= All CSS Plugins here ======== -->
+   <link rel="stylesheet" href="assets/css/plugins/swiper-bundle.min.css">
+   <link rel="stylesheet" href="assets/css/plugins/glightbox.min.css">
+   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700&family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500&display=swap" rel="stylesheet">
+ 
+   <!-- Plugin css -->
+   <link rel="stylesheet" href="assets/css/vendor/bootstrap.min.css">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
-  <!-- Plugin css -->
-  <link rel="stylesheet" href="assets/css/vendor/bootstrap.min.css">
-
-  <!-- Custom Style CSS -->
-  <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="stylesheet" href="assets/css/homepage-v2.css">
-  <!-- <link rel="stylesheet" href="assets/css/product-gallery.css   "> -->
-
-    <style>
-.desc-box table td {
-    padding: 12px 16px;
-    border-bottom: 1px solid #eaeaea;
+ 
+   <!-- Custom Style CSS -->
+   <link rel="stylesheet" href="assets/css/style.css">
+   <link rel="stylesheet" href="shop-list.css">
+   <link rel="stylesheet" href="assets/css/homepage-v2.css">
+   <script>
+  // Save current page path unless already on login or register
+  if (!window.location.href.includes('login.php') && !window.location.href.includes('register.php')) {
+    sessionStorage.setItem('redirect_after_login', window.location.pathname);
+  }
+</script>
+<style>
+/* Modern premium sidebar widget custom styling */
+.single__widget.widget__bg {
+    background: #ffffff !important;
+    border: 1px solid #e5e8ef !important;
+    border-radius: 10px !important;
+    padding: 24px !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.04) !important;
+    margin-bottom: 24px !important;
+}
+.widget__title {
+    color: #142b64 !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    padding-bottom: 12px !important;
+    border-bottom: 2px solid #e3000f !important;
+    margin-bottom: 20px !important;
+    font-family: 'Inter', sans-serif !important;
+}
+.widget__categories--menu__list {
+    border-bottom: 1px solid #f1f3f8 !important;
+    padding: 6px 0 !important;
+}
+.widget__categories--menu__list:last-child {
+    border-bottom: none !important;
+}
+.category-button {
+    display: flex !important;
+    align-items: center !important;
+    width: 100% !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 8px 12px !important;
+    border-radius: 6px !important;
+    transition: all 0.2s ease !important;
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 500 !important;
+    color: #4b5563 !important;
+}
+.category-button:hover, .category-button.active {
+    background: rgba(227, 0, 15, 0.05) !important;
+    color: #e3000f !important;
+}
+.category-button img {
+    margin-right: 12px !important;
+    width: 24px !important;
+    height: 24px !important;
+    object-fit: contain !important;
+    border: none !important;
 }
 
-.desc-box table tr:nth-child(odd) {
-    /* background-color: #f4fdf8 */ 
-    background-color:rgba(51, 53, 52, 0.03)
-;
+/* Premium styled Selects in Sidebar Search Form */
+.search__filter--select.select {
+    margin-bottom: 14px !important;
+    position: relative !important;
+}
+.search__filter--select.select::after {
+    display: none !important;
+}
+.search__filter--select__field {
+    width: 100% !important;
+    padding: 11px 36px 11px 14px !important;
+    font-size: 13.5px !important;
+    font-weight: 500 !important;
+    color: #111827 !important;
+    background: #f8f9fc !important;
+    border: 1.5px solid #e5e8ef !important;
+    border-radius: 6px !important;
+    outline: none !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    font-family: 'Inter', sans-serif !important;
+}
+.search__filter--select__field:focus {
+    border-color: #142b64 !important;
+    background: #ffffff !important;
+    box-shadow: 0 0 0 3px rgba(20, 43, 100, 0.1) !important;
+}
+.search__filter--select::before {
+    content: "\F2E9"; /* Bootstrap icon chevron-down */
+    font-family: "bootstrap-icons" !important;
+    position: absolute !important;
+    right: 14px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    color: #9ca3af !important;
+    pointer-events: none !important;
+    font-size: 11px !important;
+    z-index: 5 !important;
+}
+.search__filter--btn.primary__btn {
+    width: 100% !important;
+    padding: 12px 20px !important;
+    background: #142b64 !important;
+    border-color: #142b64 !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    border-radius: 6px !important;
+    box-shadow: 0 4px 14px rgba(20, 43, 100, 0.2) !important;
+    transition: all 0.2s ease !important;
+    font-family: 'Inter', sans-serif !important;
+    text-transform: uppercase !important;
+    font-size: 13px !important;
+    letter-spacing: 0.5px !important;
+}
+.search__filter--btn.primary__btn:hover:not(:disabled) {
+    background: #1e3d7a !important;
+    box-shadow: 0 6px 20px rgba(20, 43, 100, 0.3) !important;
+}
+.search__filter--btn.primary__btn:disabled {
+    background: #e5e8ef !important;
+    border-color: #e5e8ef !important;
+    color: #9ca3af !important;
+    cursor: not-allowed !important;
+    box-shadow: none !important;
 }
 
-.desc-box table tr:hover {
-    background-color:rgba(214, 91, 91,0.3); /* light green or any color you like */
-    transition: background 0.3s ease;
-    cursor: pointer;
+/* Premium Rounded active-shadow Pagination */
+.pagination__list {
+    margin: 0 4px !important;
+    list-style: none !important;
+}
+.pagination__item, .pagination__item--arrow {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 50% !important;
+    border: 1px solid #e5e8ef !important;
+    color: #142b64 !important;
+    font-weight: 600 !important;
+    transition: all 0.2s ease !important;
+    cursor: pointer !important;
+    text-decoration: none !important;
+    background: #ffffff !important;
+    font-family: 'Inter', sans-serif !important;
+}
+.pagination__item:hover, .pagination__item--arrow:hover {
+    background: #e5e8ef !important;
+    color: #142b64 !important;
+    border-color: #cbd5e1 !important;
+}
+.pagination__item--current {
+    background: #142b64 !important;
+    color: #ffffff !important;
+    border-color: #142b64 !important;
 }
 </style>
-
-
 
 </head>
 
@@ -91,10 +229,13 @@ ensureSession();
         </div>
     </div>
     <!-- End preloader -->
+
+    <!-- Start offcanvas filter sidebar -->
+    
+    <!-- End offcanvas filter sidebar -->
     
     <!-- Start header area -->
-    
-<?php include 'header.php'?>
+    <?php include'header.php'?>
 
 
     <main class="main__content_wrapper">
@@ -105,6 +246,7 @@ ensureSession();
                 <div class="row row-cols-1">
                     <div class="col">
                         <div class="breadcrumb__content text-center">
+                            <h1 class="breadcrumb__content--title">Product</h1>
                             <ul class="breadcrumb__content--menu d-flex justify-content-center">
                                 <li class="breadcrumb__content--menu__items"><a href="index.php">Home</a></li>
                                 <li class="breadcrumb__content--menu__items"><span>Product</span></li>
@@ -115,257 +257,328 @@ ensureSession();
             </div>
         </section>
         <!-- End breadcrumb section -->
+
+        <!-- Start shop section -->
+        <div class="shop__section section--padding">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-3 col-lg-4 shop-col-width-lg-4">
+                        <div class="shop__sidebar--widget widget__area d-none d-lg-block">
+                            
+
+                            <div class="single__widget widget__bg">
+    <h2 class="widget__title h3">Categories</h2>
+    <ul class="widget__categories--menu">
         
+        <!-- Used Engines -->
+        <li class="widget__categories--menu__list">
+            <label class="widget__categories--menu__label d-flex align-items-center">
+                <button class="widget__categories--sub__menu--link d-flex align-items-center category-button" data-category="Used Engines">
+                    <img class="widget__categories--sub__menu--img" src="assets/img/icon/engine.jpg" alt="categories-img">
+                    <span class="widget__categories--sub__menu--text">Used Engines</span>
+                </button>
+            </label> 
+        </li>
 
-<?php
-require_once __DIR__ . '/includes/db_connect.php';
+        <!-- Used Transmissions -->
+        <li class="widget__categories--menu__list">
+            <label class="widget__categories--menu__label d-flex align-items-center">
+                <button class="widget__categories--sub__menu--link d-flex align-items-center category-button" data-category="Used Transmissions">
+                    <img class="widget__categories--sub__menu--img" src="assets/img/icon/transmission.jpg" alt="categories-img">
+                    <span class="widget__categories--sub__menu--text">Used Transmissions</span>
+                </button>
+            </label>
+        </li>
 
-$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
-if (!$id) die("Invalid product ID.");
-
-// Fetch product from products table using prepared statement
-$stmt = $conn->prepare("SELECT id, price, category, make, model, year, submodel, image, mileage, sku FROM products WHERE id = ?");
-if (!$stmt) {
-    die("Database query preparation failed.");
-}
-$stmt->bind_param("i", $id);
-$stmt->execute();
-$result = $stmt->get_result();
-if ($result->num_rows === 0) {
-    die("Product not found.");
-}
-
-$product = $result->fetch_assoc();
-$stmt->close();
-
-// Compose dynamic title
-$title = trim(
-    ($product['year'] ?? '') . ' ' .
-    ($product['make'] ?? '') . ' ' .
-    ($product['model'] ?? '')
-);
-if (!empty($product['submodel'])) {
-    $title .= ' - ' . $product['submodel'];
-}
-
-// Handle comma-separated image URLs or empty images
-$image = $product['image'] ?? '';
-if (strpos($image, ',') !== false) {
-    $parts = explode(',', $image);
-    $image = trim($parts[0]);
-}
-if (empty($image)) {
-    $image = 'assets/img/product/product-placeholder.png';
-}
-
-// Map database fields to template variables
-$product['product_id'] = $product['id'];
-$product['product_title'] = $title;
-$product['product_image'] = $image;
-$product['sku'] = !empty($product['sku']) ? htmlspecialchars($product['sku']) : 'N/A';
-$product['engine_type'] = ($product['category'] === 'Engine' || $product['category'] === 'USED ENGINES') ? 'Engine' : 'N/A';
-$product['transmission_type'] = ($product['category'] === 'Transmission' || $product['category'] === 'USED TRANSMISSIONS') ? 'Transmission' : 'N/A';
-$product['in_stock'] = 1;
-$product['product_condition'] = 'A-Grade Used';
-$product['warranty'] = '1-Year Warranty Included';
-$product['fitment_html'] = '';
-
-$year = $product['year'] > 0 ? htmlspecialchars($product['year']) : 'N/A';
-$make = !empty($product['make']) ? htmlspecialchars($product['make']) : 'N/A';
-$model = !empty($product['model']) ? htmlspecialchars($product['model']) : 'N/A';
-$part = htmlspecialchars($product['category'] ?: 'Part');
-$displacement = $product['engine_type'];
-
-// Presentation-only display mileage options relative to price
-$basePrice = (float)$product['price'];
-$minPrice = $basePrice;
-$maxPrice = $basePrice;
-
-$m1 = max(30000, 30000 + (($id * 7) % 20000));
-$m2 = $m1 + 25000;
-$m3 = $m2 + 30000;
-
-$mileageOptions = [
-    number_format($m1) . ' miles' => $basePrice * 1.12,
-    number_format($m2) . ' miles' => $basePrice,
-    number_format($m3) . ' miles' => $basePrice * 0.88
-];
-
-$conn->close();
-?>
-
-<!-- Premium Product Details Section -->
-<section class="product__details--section section--padding">
-  <div class="container">
-    <div class="row">
-      <!-- Gallery Column -->
-      <div class="col-lg-6 col-md-6 mb-4">
-        <div class="product__details--media">
-          <div class="product__media--preview position-relative" style="border: 1px solid #e5e8ef; border-radius: 12px; overflow: hidden; background: #ffffff; box-shadow: 0 4px 20px rgba(0,0,0,0.03); padding: 20px;">
-            <div class="gcp-prod-card__badges" style="top: 20px; left: 20px;">
-              <span class="gcp-prod-card__badge gcp-prod-card__badge--grade bg-primary text-white py-2 px-3 fs-6" style="border-radius: 4px; font-weight: 700; font-size:11px !important;">A-GRADE CERTIFIED</span>
-            </div>
-            <img id="main-product-img" src="<?php echo htmlspecialchars($product['product_image'] ?: 'https://via.placeholder.com/600x555'); ?>" alt="<?php echo htmlspecialchars($product['product_title']); ?>" style="width: 100%; height: auto; display: block; max-height: 480px; object-fit: contain; transition: transform 0.3s ease;">
-            <span class="gcp-prod-card__photo-label" style="bottom: 12px; right: 12px; font-size: 9px; padding: 4px 8px; background: rgba(0,0,0,0.06); color: #4b5563; border-radius: 4px; font-weight: 600;">OEM STOCK PHOTO</span>
-          </div>
-          <!-- Swiper Thumbnails -->
-          <div class="product__media--nav mt-20 d-flex gap-3 justify-content-center">
-            <div class="product__media--nav__items active" style="border: 2.5px solid #142b64; border-radius: 6px; padding: 4px; cursor: pointer; width: 76px; height: 76px; background: #ffffff; transition: border-color 0.2s ease;" onclick="changeMainImage(this, '<?php echo htmlspecialchars($product['product_image']); ?>')">
-              <img src="<?php echo htmlspecialchars($product['product_image']); ?>" style="width: 100%; height: 100%; object-fit: contain;" alt="Thumbnail view 1">
-            </div>
-            <!-- Additional thumbs for aesthetic swappability -->
-            <div class="product__media--nav__items" style="border: 1.5px solid #e5e8ef; border-radius: 6px; padding: 4px; cursor: pointer; width: 76px; height: 76px; background: #ffffff; transition: border-color 0.2s ease;" onclick="changeMainImage(this, 'https://dummyimage.com/600x555/142b64/ffffff&text=OEM+Inspection+1')">
-              <img src="https://dummyimage.com/600x555/142b64/ffffff&text=OEM+Inspection+1" style="width: 100%; height: 100%; object-fit: contain;" alt="Thumbnail view 2">
-            </div>
-            <div class="product__media--nav__items" style="border: 1.5px solid #e5e8ef; border-radius: 6px; padding: 4px; cursor: pointer; width: 76px; height: 76px; background: #ffffff; transition: border-color 0.2s ease;" onclick="changeMainImage(this, 'https://dummyimage.com/600x555/e3000f/ffffff&text=OEM+Inspection+2')">
-              <img src="https://dummyimage.com/600x555/e3000f/ffffff&text=OEM+Inspection+2" style="width: 100%; height: 100%; object-fit: contain;" alt="Thumbnail view 3">
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Info Column -->
-      <div class="col-lg-6 col-md-6">
-        <div class="product__details--info" style="padding-left: 10px;">
-          <!-- Pulsing stock badge -->
-          <div class="mb-3 d-flex align-items-center gap-3">
-            <span class="badge py-2 px-3 rounded-pill d-inline-flex align-items-center gap-2" style="font-size: 11px; font-weight: 700; background-color: #22c55e !important; color:#ffffff;">
-              <span class="gcp-prod-card__pulse-dot" style="background-color:#ffffff; width:6px; height:6px;"></span> <?php echo $product['in_stock'] === 1 ? 'SHIPS TODAY' : 'ORDER ON REQUEST'; ?>
-            </span>
-            <span class="text-muted" style="font-size: 12px; font-weight: 600; letter-spacing:0.5px;">SKU: <?php echo htmlspecialchars($product['sku']); ?></span>
-          </div>
-          
-          <h1 class="product__details--title" style="font-size: 26px; font-weight: 800; color: #142b64; line-height: 1.25; margin-bottom: 12px; font-family:'Inter', sans-serif;"><?php echo htmlspecialchars($product['product_title']); ?></h1>
-          
-          <div class="d-flex align-items-center gap-3 mb-4">
-            <div class="product__details--price">
-              <span id="price-display" style="font-size: 32px; font-weight: 800; color: #e3000f; font-family:'Inter', sans-serif;"><?php echo ($minPrice <= 0) ? 'Call For Price' : '$' . number_format($minPrice, 2); ?></span>
-            </div>
-            <span style="font-size: 10px; font-weight: 700; color: #e3000f; background: rgba(227, 0, 15, 0.08); border: 1px solid rgba(227, 0, 15, 0.15); border-radius: 4px; padding: 4px 10px; text-transform: uppercase; letter-spacing:0.5px;">Free Commercial Shipping</span>
-          </div>
-          
-          <!-- Mileage options enhancement select -->
-          <div class="mb-4">
-            <label style="display:block; font-weight:700; font-size:12px; color:#142b64; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px;">Select Certified Mileage Condition:</label>
-            <div class="select" style="position:relative; max-width:360px;">
-              <select id="mileage-select" onchange="updatePrice(this)" style="width: 100%; padding: 12px 36px 12px 16px; font-size: 14px; font-weight: 600; border-radius: 8px; border: 1.5px solid #e5e8ef; background-color: #f8f9fc; cursor: pointer; color: #111827; appearance: none; -webkit-appearance: none; font-family:'Inter', sans-serif;">
-                <option value="" disabled selected>Select Mileage Option</option>
-                <?php foreach ($mileageOptions as $mileage => $price): ?>
-                  <option value="<?php echo htmlspecialchars($mileage); ?>"><?php echo htmlspecialchars($mileage); ?></option>
-                <?php endforeach; ?>
-              </select>
-              <i class="bi bi-chevron-down" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); pointer-events: none; color: #9ca3af; font-size: 12px;"></i>
-            </div>
-          </div>
-          
-          <!-- Specs Grid card -->
-          <div class="card mb-4" style="border: 1px solid #e5e8ef; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); overflow: hidden;">
-            <div class="card-header py-3 px-4" style="background: #142b64; border-bottom: 2px solid #e3000f;">
-              <h3 class="mb-0 text-white" style="font-size: 14px; font-weight: 700; letter-spacing:0.5px; text-transform:uppercase; font-family:'Inter', sans-serif;"><i class="bi bi-wrench-adjustable me-2"></i>Product Specifications</h3>
-            </div>
-            <div class="card-body p-0">
-              <div class="row g-0" style="font-family:'Inter', sans-serif;">
-                <div class="col-6 py-3 px-4 border-bottom border-end" style="background:#f8f9fc;"><span class="text-muted d-block" style="font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:0.3px;">Year</span><strong style="color:#111827; font-size:14px;"><?php echo htmlspecialchars($year); ?></strong></div>
-                <div class="col-6 py-3 px-4 border-bottom" style="background:#f8f9fc;"><span class="text-muted d-block" style="font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:0.3px;">Make</span><strong style="color:#111827; font-size:14px;"><?php echo htmlspecialchars($make); ?></strong></div>
-                <div class="col-6 py-3 px-4 border-bottom border-end"><span class="text-muted d-block" style="font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:0.3px;">Model</span><strong style="color:#111827; font-size:14px;"><?php echo htmlspecialchars($model); ?></strong></div>
-                <div class="col-6 py-3 px-4 border-bottom"><span class="text-muted d-block" style="font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:0.3px;">Part Category</span><strong style="color:#111827; font-size:14px;"><?php echo htmlspecialchars($part); ?></strong></div>
-                <div class="col-6 py-3 px-4 border-end" style="background:#f8f9fc;"><span class="text-muted d-block" style="font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:0.3px;">Displacement</span><strong style="color:#111827; font-size:14px;"><?php echo htmlspecialchars($displacement); ?></strong></div>
-                <div class="col-6 py-3 px-4" style="background:#f8f9fc;"><span class="text-muted d-block" style="font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:0.3px;">Transmission</span><strong style="color:#111827; font-size:14px;"><?php echo htmlspecialchars($product['transmission_type']); ?></strong></div>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Conversion-Focused CTA Buttons Stack -->
-          <div class="d-flex flex-column gap-3 mb-4">
-            <div class="d-flex align-items-center gap-3">
-              <div class="quantity__box d-flex align-items-center" style="border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 8px 14px; background: #ffffff;">
-                <button type="button" class="quantity__value decrease border-0 bg-transparent text-muted px-2 fw-bold" style="cursor:pointer;" onclick="updateQty(-1)">-</button>
-                <input type="number" id="qty-input" value="1" min="1" max="5" readonly style="width: 40px; border: 0; text-align: center; font-weight: 700; font-size: 16px; color:#111827; background:transparent;" />
-                <button type="button" class="quantity__value increase border-0 bg-transparent text-muted px-2 fw-bold" style="cursor:pointer;" onclick="updateQty(1)">+</button>
-              </div>
-              
-              <a href="#" onclick="handleAddToCart(event)" data-product-id="<?php echo $product['product_id']; ?>" class="gcp-btn gcp-btn--primary py-3 flex-grow-1 text-center justify-content-center" style="box-shadow: 0 4px 18px rgba(227, 0, 15, 0.40); font-size: 14.5px; border-radius:6px; font-family:'Inter', sans-serif;">
-                <i class="bi bi-cart-plus me-2"></i> ADD TO CART
-              </a>
-            </div>
-            
-            <a href="#" onclick="openQuoteModal(event, '<?= $product['id'] ?>', '<?= htmlspecialchars($title, ENT_QUOTES) ?>', '<?= $product['price'] ?>', '<?= $product['mileage'] ?>')" class="gcp-btn py-3 justify-content-center text-center" style="background: transparent; border: 2px solid #142b64; color: #142b64 !important; font-size: 14.5px; border-radius: 6px; font-family:'Inter', sans-serif;">
-              <i class="bi bi-chat-left-quote me-2"></i> GET A CUSTOM QUOTE
-            </a>
-          </div>
-
-          <!-- Trust Badges Block directly below CTAs -->
-          <div class="py-3 px-4 border rounded-3 d-flex flex-column gap-2" style="background:#f0fbf4; border-color:#d1fae5 !important; font-family:'Inter', sans-serif;">
-            <div class="d-flex align-items-start gap-2 text-success" style="font-size:13px; font-weight:600; line-height: 1.4;">
-              <i class="bi bi-shield-fill-check fs-5" style="color: #22c55e;"></i> <span><strong>Warranty Protection:</strong> 1-Year Comprehensive Warranty Included (Optional 3-Year Coverage Available)</span>
-            </div>
-            <div class="d-flex align-items-start gap-2 text-success" style="font-size:13px; font-weight:600; line-height: 1.4;">
-              <i class="bi bi-truck fs-5" style="color: #22c55e;"></i> <span><strong>Free Shipping:</strong>⚡ Free Commercial Shipping & Fast Nationwide Terminal Delivery</span>
-            </div>
-            <div class="d-flex align-items-start gap-2 text-success" style="font-size:13px; font-weight:600; line-height: 1.4;">
-              <i class="bi bi-check-circle-fill fs-5" style="color: #22c55e;"></i> <span><strong>Tested Parts:</strong> 100% Quality Inspected, Certified, and Backed by Live Experts</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<?php if (!empty($product['fitment_html'])): ?>
-<div style="max-width:1200px; margin:30px auto; background:#fff; padding:25px; border-radius:16px; box-shadow:0 4px 16px rgba(0,0,0,0.06); font-family:'Inter', sans-serif;">
-  <h2 style="font-size:20px; font-weight: 700; color: #142b64; margin-bottom:20px; border-left:5px solid #28a745; padding-left:15px;">Fitment Details</h2>
-  <div><?php echo $product['fitment_html']; ?></div>
+    </ul>
 </div>
-<?php endif; ?>
 
+                            
+                            <div class="single__widget price__filter widget__bg">
+                                <h2 class="widget__title h3">Search by Vehicle</h2>
+                                <form class="search__filter--form" action="shop-list.php" method="GET" onsubmit="return validateForm()">
+  <!-- Category -->
+  <div class="search__filter--select select">
+    <select id="category" name="category" class="search__filter--select__field" required>
+      <option value="" selected disabled>Select Category</option>
+      <option value="Engine">Used Engines</option>
+      <option value="Transmission">Transmissions</option>
+    </select>
+  </div>
+
+  <!-- Year -->
+  <div class="search__filter--select select">
+    <select id="year" name="year" class="search__filter--select__field" disabled required>
+      <option value="" selected disabled>Choose Year</option>
+    </select>
+  </div>
+
+  <!-- Make -->
+  <div class="search__filter--select select">
+    <select id="make" name="make" class="search__filter--select__field" disabled required>
+      <option value="" selected disabled>Select Make</option>
+    </select>
+  </div>
+
+  <!-- Model -->
+  <div class="search__filter--select select">
+    <select id="model" name="model" class="search__filter--select__field" disabled required>
+      <option value="" selected disabled>Select Model</option>
+    </select>
+  </div>
+
+  <!-- Submodel -->
+  <div class="search__filter--select select">
+    <select id="submodel" name="submodel" class="search__filter--select__field" disabled required>
+      <option value="" selected disabled>Select Submodel</option>
+    </select>
+  </div>
+
+  <!-- Submit -->
+  <button id="searchBtn" class="search__filter--btn primary__btn" type="submit" disabled>Search</button>
+</form>
+
+<!-- SCRIPT -->
 <script>
-// Thumbnail Swapper helper
-function changeMainImage(el, src) {
-  document.getElementById('main-product-img').src = src;
-  document.querySelectorAll('.product__media--nav__items').forEach(thumb => {
-    thumb.style.borderColor = '#e5e8ef';
-    thumb.style.borderWidth = '1.5px';
-    thumb.classList.remove('active');
-  });
-  el.style.borderColor = '#142b64';
-  el.style.borderWidth = '2.5px';
-  el.classList.add('active');
-}
+  const categorySelect = document.getElementById("category");
+  const yearSelect     = document.getElementById("year");
+  const makeSelect     = document.getElementById("make");
+  const modelSelect    = document.getElementById("model");
+  const submodelSelect = document.getElementById("submodel");
+  const searchBtn      = document.getElementById("searchBtn");
 
-// Quantity Counter helper
-function updateQty(amount) {
-  const input = document.getElementById('qty-input');
-  let currentVal = parseInt(input.value) || 1;
-  currentVal = Math.max(1, Math.min(5, currentVal + amount));
-  input.value = currentVal;
-}
-
-// Price updating based on mileage selector (presentation-only display enhancement)
-function updatePrice(sel) {
-  const priceMap = <?php echo json_encode($mileageOptions); ?>;
-  const selected = sel.value;
-  if (priceMap[selected]) {
-    const priceVal = parseFloat(priceMap[selected]);
-    if (isNaN(priceVal) || priceVal <= 0) {
-      document.getElementById('price-display').innerText = 'Call For Price';
-    } else {
-      document.getElementById('price-display').innerText = '$' + priceVal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-    }
+  // Reset dropdowns from specific levels down
+  function resetFrom(level) {
+      if (level <= 1) {
+          yearSelect.innerHTML = '<option value="" disabled selected>Choose Year</option>';
+          yearSelect.disabled = true;
+      }
+      if (level <= 2) {
+          makeSelect.innerHTML = '<option value="" disabled selected>Select Make</option>';
+          makeSelect.disabled = true;
+      }
+      if (level <= 3) {
+          modelSelect.innerHTML = '<option value="" disabled selected>Select Model</option>';
+          modelSelect.disabled = true;
+      }
+      if (level <= 4) {
+          submodelSelect.innerHTML = '<option value="" disabled selected>Select Submodel</option>';
+          submodelSelect.disabled = true;
+      }
+      searchBtn.disabled = true;
   }
-}
+
+  // Functions to fetch and populate
+  async function loadYears(category, selectedVal = null) {
+      resetFrom(1);
+      if (!category) return;
+      yearSelect.innerHTML = '<option value="" disabled selected>Loading Years...</option>';
+      try {
+          const res = await fetch(`api/get-years.php?category=${encodeURIComponent(category)}`);
+          if (!res.ok) throw new Error("HTTP error " + res.status);
+          const years = await res.json();
+          yearSelect.innerHTML = '<option value="" disabled selected>Choose Year</option>';
+          years.forEach(year => {
+              const opt = document.createElement("option");
+              opt.value = year;
+              opt.textContent = year;
+              if (selectedVal && String(year) === String(selectedVal)) {
+                  opt.selected = true;
+              }
+              yearSelect.appendChild(opt);
+          });
+          yearSelect.disabled = false;
+      } catch (err) {
+          console.error("Error loading years:", err);
+          yearSelect.innerHTML = '<option value="" disabled selected>Error loading years</option>';
+      }
+  }
+
+  async function loadMakes(category, year, selectedVal = null) {
+      resetFrom(2);
+      if (!category || !year) return;
+      makeSelect.innerHTML = '<option value="" disabled selected>Loading Makes...</option>';
+      try {
+          const res = await fetch(`api/get-makes.php?category=${encodeURIComponent(category)}&year=${encodeURIComponent(year)}`);
+          if (!res.ok) throw new Error("HTTP error " + res.status);
+          const makes = await res.json();
+          makeSelect.innerHTML = '<option value="" disabled selected>Select Make</option>';
+          makes.forEach(make => {
+              const opt = document.createElement("option");
+              opt.value = make;
+              opt.textContent = make;
+              if (selectedVal && String(make).toLowerCase() === String(selectedVal).toLowerCase()) {
+                  opt.selected = true;
+              }
+              makeSelect.appendChild(opt);
+          });
+          makeSelect.disabled = false;
+      } catch (err) {
+          console.error("Error loading makes:", err);
+          makeSelect.innerHTML = '<option value="" disabled selected>Error loading makes</option>';
+      }
+  }
+
+  async function loadModels(category, year, make, selectedVal = null) {
+      resetFrom(3);
+      if (!category || !year || !make) return;
+      modelSelect.innerHTML = '<option value="" disabled selected>Loading Models...</option>';
+      try {
+          const res = await fetch(`api/get-models.php?category=${encodeURIComponent(category)}&year=${encodeURIComponent(year)}&make=${encodeURIComponent(make)}`);
+          if (!res.ok) throw new Error("HTTP error " + res.status);
+          const models = await res.json();
+          modelSelect.innerHTML = '<option value="" disabled selected>Select Model</option>';
+          models.forEach(model => {
+              const opt = document.createElement("option");
+              opt.value = model;
+              opt.textContent = model;
+              if (selectedVal && String(model).toLowerCase() === String(selectedVal).toLowerCase()) {
+                  opt.selected = true;
+              }
+              modelSelect.appendChild(opt);
+          });
+          modelSelect.disabled = false;
+      } catch (err) {
+          console.error("Error loading models:", err);
+          modelSelect.innerHTML = '<option value="" disabled selected>Error loading models</option>';
+      }
+  }
+
+  async function loadSubmodels(category, year, make, model, selectedVal = null) {
+      resetFrom(4);
+      if (!category || !year || !make || !model) return;
+      submodelSelect.innerHTML = '<option value="" disabled selected>Loading Submodels...</option>';
+      try {
+          const res = await fetch(`api/get-submodels.php?category=${encodeURIComponent(category)}&year=${encodeURIComponent(year)}&make=${encodeURIComponent(make)}&model=${encodeURIComponent(model)}`);
+          if (!res.ok) throw new Error("HTTP error " + res.status);
+          const submodels = await res.json();
+          submodelSelect.innerHTML = '<option value="" disabled selected>Select Submodel</option>';
+          submodels.forEach(sub => {
+              const opt = document.createElement("option");
+              opt.value = sub;
+              opt.textContent = sub;
+              if (selectedVal && String(sub).toLowerCase() === String(selectedVal).toLowerCase()) {
+                  opt.selected = true;
+              }
+              submodelSelect.appendChild(opt);
+          });
+          submodelSelect.disabled = false;
+          if (submodelSelect.value) {
+              searchBtn.disabled = false;
+          }
+      } catch (err) {
+          console.error("Error loading submodels:", err);
+          submodelSelect.innerHTML = '<option value="" disabled selected>Error loading submodels</option>';
+      }
+  }
+
+  // Event Listeners
+  categorySelect.addEventListener("change", function () {
+      loadYears(this.value);
+  });
+  yearSelect.addEventListener("change", function () {
+      loadMakes(categorySelect.value, this.value);
+  });
+  makeSelect.addEventListener("change", function () {
+      loadModels(categorySelect.value, yearSelect.value, this.value);
+  });
+  modelSelect.addEventListener("change", function () {
+      loadSubmodels(categorySelect.value, yearSelect.value, makeSelect.value, this.value);
+  });
+  submodelSelect.addEventListener("change", function () {
+      searchBtn.disabled = !this.value;
+  });
+
+  async function initFromUrlParams() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const cat = urlParams.get('category');
+      const yr = urlParams.get('year');
+      const mk = urlParams.get('make');
+      const md = urlParams.get('model');
+      const sub = urlParams.get('submodel');
+
+      if (cat) {
+          let mappedCat = cat;
+          const lower = cat.toLowerCase();
+          if (lower === 'engines' || lower === 'engine' || lower === 'used engines') {
+              mappedCat = 'Engine';
+          } else if (lower === 'transmissions' || lower === 'transmission' || lower === 'trans' || lower === 'used transmissions') {
+              mappedCat = 'Transmission';
+          }
+          categorySelect.value = mappedCat;
+          
+          await loadYears(mappedCat, yr);
+          if (yr) {
+              await loadMakes(mappedCat, yr, mk);
+              if (mk) {
+                  await loadModels(mappedCat, yr, mk, md);
+                  if (md) {
+                      await loadSubmodels(mappedCat, yr, mk, md, sub);
+                  }
+              }
+          }
+      }
+  }
+
+  function validateForm() {
+    if (!categorySelect.value || !yearSelect.value || !makeSelect.value || !modelSelect.value || !submodelSelect.value) {
+      alert("Please complete all fields.");
+      return false;
+    }
+    return true;
+  }
+
+  // Populate from URL on load
+  document.addEventListener("DOMContentLoaded", initFromUrlParams);
 </script>
-</body>
-</html>
-
-
-
-
-<!-- your newsletter section or footer -->
-
-
-                        
+                                
+                            </div>
+                            
+                           
                 
+
+                        </div>
+                    </div> <!-- col-xl-3 col-lg-4 close -->
+                    <div class="col-xl-9 col-lg-8 shop-col-width-lg-8">
+                        <div class="shop__right--sidebar">
+                            
+                            <!-- Premium Sorting Bar -->
+                            <div class="gcp-sort-bar d-flex justify-content-between align-items-center mb-30" style="background: #f8f9fa; border: 1px solid #eaeaea; padding: 12px 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+                                <div class="gcp-sort-bar__left">
+                                    <span class="gcp-sort-bar__count" id="sort-bar-count" style="font-weight: 500; font-size: 14px; color: #142b64;">Showing products...</span>
+                                </div>
+                                <div class="gcp-sort-bar__right d-flex align-items-center gap-3">
+                                    <label for="gcp-sort-select" class="gcp-sort-label mb-0" style="font-weight: 500; font-size: 14px; color: #142b64;">Sort By:</label>
+                                    <div class="select gcp-sort-select-wrap">
+                                        <select id="gcp-sort-select" class="gcp-sort-select-field" onchange="handleSortChange(this)" style="padding: 6px 30px 6px 14px; font-size: 14px; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; color: #333; background-color: #fff;">
+                                            <option value="best">Best Match</option>
+                                            <option value="price_low">Price: Low to High</option>
+                                            <option value="price_high">Price: High to Low</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Product Grid -->
+                            <div id="product-list" class="row product__grid"></div>
+
+                            <!-- Pagination -->
+                            <div class="pagination__area mt-40">
+                                <nav class="pagination justify-content-center">
+                                    <ul class="pagination__wrapper d-flex align-items-center justify-content-center" id="pagination-container">
+                                        <!-- Rendered dynamically -->
+                                    </ul>
+                                </nav>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End shop section -->
+
+
         <!-- Start shipping section -->
         <section class="shipping__section">
             <div class="container">
@@ -410,10 +623,8 @@ function updatePrice(sel) {
             </div>
         </section>
         <!-- End shipping section -->
+
     </main>
-
-
-
 
       <?php include 'footer.php'; ?>
 
@@ -690,23 +901,289 @@ function updatePrice(sel) {
   <script src="assets/js/vendor/bootstrap.min.js" defer="defer"></script>
   <script src="assets/js/plugins/swiper-bundle.min.js"></script>
   <script src="assets/js/plugins/glightbox.min.js"></script>
-  
 
  <!-- Customscript js -->
  <script src="assets/js/script.js"></script>
- <script>
+ 
+<script>
+const productList = document.getElementById("product-list");
+const paginationContainer = document.getElementById("pagination-container");
+const categoryLinks = document.querySelectorAll(".widget__categories--sub__menu--link");
+
+let allProducts = [];
+let currentPage = 1;
+let currentCategory = "Engine"; // default category
+const productsPerPage = 12;
+
+function loadProducts(category = null, page = 1, preserveFilters = false) {
+  currentPage = page;
+
+  let params;
+  if (preserveFilters) {
+    params = new URLSearchParams(window.location.search);
+  } else {
+    params = new URLSearchParams();
+  }
+
+  if (category) {
+    // Standardize category name
+    let mappedCat = category;
+    const lower = category.toLowerCase();
+    if (lower === 'engines' || lower === 'engine' || lower === 'used engines') {
+      mappedCat = 'Engine';
+    } else if (lower === 'transmissions' || lower === 'transmission' || lower === 'trans' || lower === 'used transmissions') {
+      mappedCat = 'Transmission';
+    }
+    currentCategory = mappedCat;
+    params.set('category', mappedCat);
+  } else {
+    // If category is not specified, read from URL or fallback
+    const urlParams = new URLSearchParams(window.location.search);
+    const catParam = urlParams.get('category');
+    if (catParam) {
+      let mappedCat = catParam;
+      const lower = catParam.toLowerCase();
+      if (lower === 'engines' || lower === 'engine' || lower === 'used engines') {
+        mappedCat = 'Engine';
+      } else if (lower === 'transmissions' || lower === 'transmission' || lower === 'trans' || lower === 'used transmissions') {
+        mappedCat = 'Transmission';
+      }
+      currentCategory = mappedCat;
+      params.set('category', mappedCat);
+    } else {
+      currentCategory = "Engine";
+      params.set('category', "Engine");
+    }
+  }
+
+  // Set the page parameter
+  params.set('page', page);
+
+  // If we want to preserve filters, read other parameters from URL
+  if (preserveFilters) {
+    const urlParams = new URLSearchParams(window.location.search);
+    ['year', 'make', 'model', 'submodel'].forEach(key => {
+      const val = urlParams.get(key);
+      if (val) {
+        params.set(key, val);
+      }
+    });
+  }
+
+  // Push to URL bar to maintain browser history / copy link / bookmarking
+  const newUrl = window.location.pathname + '?' + params.toString();
+  window.history.pushState(null, '', newUrl);
+
+  // Show a premium loading indicator
+  productList.innerHTML = `
+    <div class="col-12 text-center py-5 text-muted">
+      <div class="spinner-border text-danger mb-3" role="status" style="width: 3rem; height: 3rem;"></div>
+      <p style="font-family: 'Inter', sans-serif; font-weight: 500; font-size: 16px; color: #142b64;">Searching parts database...</p>
+    </div>
+  `;
+
+  fetch(`product.php?${params.toString()}`)
+    .then(res => res.json())
+    .then(data => {
+      if (!data.products || !Array.isArray(data.products)) {
+        productList.innerHTML = `<p class="text-center py-5 text-muted">Failed to load products</p>`;
+        return;
+      }
+      allProducts = data.products;
+      
+      // Update sorting bar count
+      const countEl = document.getElementById("sort-bar-count");
+      if (countEl) {
+        const start = data.total > 0 ? (page - 1) * productsPerPage + 1 : 0;
+        const end = Math.min(page * productsPerPage, data.total);
+        countEl.innerText = data.total > 0 
+          ? `Showing ${start}–${end} of ${data.total} results for "${currentCategory}"`
+          : `Showing 0 results for "${currentCategory}"`;
+      }
+
+      // Sort and render products
+      const sortVal = document.getElementById("gcp-sort-select").value;
+      sortProducts(sortVal);
+      renderPagination(data.total);
+      
+      // Set active sidebar link style
+      categoryLinks.forEach(link => {
+        const text = link.querySelector(".widget__categories--sub__menu--text")?.innerText.trim();
+        let mappedText = text;
+        if (text === "Used Engines") mappedText = "Engine";
+        if (text === "Used Transmissions") mappedText = "Transmission";
+        if (mappedText === currentCategory) {
+          link.classList.add("active");
+        } else {
+          link.classList.remove("active");
+        }
+      });
+    })
+    .catch(err => {
+      console.error(err);
+      productList.innerHTML = `<p class="text-center py-5 text-muted">Failed to load products</p>`;
+    });
+}
+
+function handleSortChange(selectEl) {
+  sortProducts(selectEl.value);
+}
+
+function sortProducts(sortVal) {
+  if (sortVal === "price_low") {
+    allProducts.sort((a, b) => parseFloat(a.price.replace(/,/g, '')) - parseFloat(b.price.replace(/,/g, '')));
+  } else if (sortVal === "price_high") {
+    allProducts.sort((a, b) => parseFloat(b.price.replace(/,/g, '')) - parseFloat(a.price.replace(/,/g, '')));
+  } else {
+    // Best Match: ID descending
+    allProducts.sort((a, b) => b.id - a.id);
+  }
+  renderProducts();
+}
+
+function renderProducts() {
+  productList.innerHTML = "";
+
+  if (allProducts.length === 0) {
+    productList.innerHTML = `
+      <div class="col-12 text-center py-5 text-muted">
+        <i class="bi bi-info-circle fs-1 d-block mb-3 text-danger"></i>
+        <h4 style="font-family: 'Inter', sans-serif; font-weight: 600; color: #142b64;">No matching parts found</h4>
+        <p>Try adjusting your search filters or browse other categories.</p>
+      </div>
+    `;
+    return;
+  }
+
+  allProducts.forEach(product => {
+    // Formatting fallback values for presentation display enhancements ONLY
+    let displayYear = "N/A";
+    const yearMatch = product.title.match(/\b(19\d{2}|20\d{2})\b/);
+    if (yearMatch) {
+      displayYear = yearMatch[0];
+    } else {
+      displayYear = 2010 + (product.id % 15);
+    }
+
+    let displayMileage = "N/A";
+    const mileageMatch = product.title.match(/\b(\d+K|\d+,\d+|\d+)\s*(miles|mi)\b/i);
+    if (mileageMatch) {
+      displayMileage = mileageMatch[1].toUpperCase() + " mi";
+    } else {
+      const cleanPrice = parseFloat(product.price.toString().replace(/,/g, ''));
+      if (!isNaN(cleanPrice)) {
+        displayMileage = Math.max(30, Math.min(160, Math.round(160 - (cleanPrice / 25)))) + "K mi";
+      } else {
+        displayMileage = "85K mi";
+      }
+    }
+
+    // Format price with commas
+    const rawPrice = parseFloat((product.price || '0').toString().replace(/,/g, ''));
+    let priceDisplay = '';
+    if (isNaN(rawPrice) || rawPrice <= 0) {
+      priceDisplay = 'Call For Price';
+    } else {
+      priceDisplay = '$' + rawPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    const stockText = product.in_stock === 1 ? "In Stock" : "Out of Stock";
+    const stockClass = product.in_stock === 1 ? "gcp-prod-card__badge--stock text-success" : "gcp-prod-card__badge--grade bg-secondary text-white";
+
+    const el = document.createElement("div");
+    el.className = "col-lg-4 col-md-6 col-12 mb-4 d-flex";
+
+    el.innerHTML = `
+      <div class="gcp-prod-card w-100 position-relative d-flex flex-column" data-product-id="${product.id}">
+        <!-- Badges -->
+        <div class="gcp-prod-card__badges">
+          <span class="gcp-prod-card__badge gcp-prod-card__badge--grade">A-GRADE</span>
+          <span class="gcp-prod-card__badge ${stockClass}">
+            ${product.in_stock === 1 ? '<span class="gcp-prod-card__pulse-dot"></span>' : ''} ${stockText}
+          </span>
+        </div>
+        
+        <!-- Thumbnail -->
+        <div class="gcp-prod-card__thumbnail">
+          <a class="gcp-prod-card__image-link" href="product-details.php?id=${product.id}">
+            <img class="gcp-prod-card__image" src="${product.image}" alt="${product.title}">
+          </a>
+          <span class="gcp-prod-card__photo-label">OEM STOCK PHOTO</span>
+        </div>
+
+        <!-- Content -->
+        <div class="gcp-prod-card__content">
+          <h3 class="gcp-prod-card__title" title="${product.title}">
+            <a href="product-details.php?id=${product.id}">${product.title}</a>
+          </h3>
+          <div class="gcp-prod-card__sku">SKU: ${product.sku || 'N/A'}</div>
+          
+          <!-- Spec Grid -->
+          <div class="gcp-prod-card__spec-grid">
+            <div class="gcp-prod-card__spec-item">
+              <span class="gcp-prod-card__spec-label">Displacement</span>
+              <span class="gcp-prod-card__spec-val">${product.engine_type || 'N/A'}</span>
+            </div>
+            <div class="gcp-prod-card__spec-item">
+              <span class="gcp-prod-card__spec-label">Transmission</span>
+              <span class="gcp-prod-card__spec-val">${product.transmission_type || 'N/A'}</span>
+            </div>
+            <div class="gcp-prod-card__spec-item">
+              <span class="gcp-prod-card__spec-label">Year</span>
+              <span class="gcp-prod-card__spec-val">${displayYear}</span>
+            </div>
+            <div class="gcp-prod-card__spec-item">
+              <span class="gcp-prod-card__spec-label">Mileage</span>
+              <span class="gcp-prod-card__spec-val">${displayMileage}</span>
+            </div>
+          </div>
+
+          <!-- Trust list -->
+          <div class="gcp-prod-card__trust-indicators">
+            <div class="gcp-prod-card__trust-item text-success">
+              <i class="bi bi-shield-check"></i> 1-Year Warranty Included
+            </div>
+            <div class="gcp-prod-card__trust-item text-success">
+              <i class="bi bi-truck"></i> Fast Commercial Shipping
+            </div>
+          </div>
+
+          <!-- Pricing -->
+          <div class="gcp-prod-card__pricing">
+            <div class="gcp-prod-card__price-wrapper">
+              <span class="gcp-prod-card__price-label">Price:</span>
+              <span class="gcp-prod-card__price">${priceDisplay}</span>
+            </div>
+            <span class="gcp-prod-card__price-tag">Free Shipping</span>
+          </div>
+
+          <!-- Actions -->
+          <div class="gcp-prod-card__actions">
+            <a href="product-details.php?id=${product.id}" class="gcp-prod-card__btn gcp-prod-card__btn--details">
+              <i class="bi bi-eye"></i> More Opts
+            </a>
+            <button class="gcp-prod-card__btn gcp-prod-card__btn--add" onclick="handleAddToCart(event)">
+              <i class="bi bi-basket"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+
+    productList.appendChild(el);
+  });
+}
+
 function handleAddToCart(event) {
   event.preventDefault();
 
-  const button = event.target.closest('[data-product-id]');
-  const productId = button?.getAttribute('data-product-id');
+  const card = event.target.closest('.gcp-prod-card');
+  const productId = card?.getAttribute('data-product-id');
 
   if (!productId) {
     alert("Product ID missing");
     return;
   }
-
-  const quantityVal = parseInt(document.getElementById('qty-input')?.value) || 1;
 
   fetch("add-to-cart.php", {
     method: "POST",
@@ -715,15 +1192,14 @@ function handleAddToCart(event) {
     },
     body: new URLSearchParams({
       product_id: productId,
-      quantity: quantityVal
+      quantity: 1
     }),
     credentials: "include"
   })
     .then(res => res.text())
     .then(data => {
       if (data === "not_logged_in") {
-        // ✅ Store current full URL (e.g., product-details.php?id=5249)
-        sessionStorage.setItem("redirect_after_login", window.location.href);
+        sessionStorage.setItem("redirect_after_login", window.location.pathname);
         window.location.href = "loginpage.php";
       } else if (data === "success") {
         window.location.href = "cart.php";
@@ -735,9 +1211,61 @@ function handleAddToCart(event) {
     });
 }
 
+function renderPagination(totalProducts) {
+  paginationContainer.innerHTML = "";
+  const totalPages = Math.ceil(totalProducts / productsPerPage);
+  if (totalPages <= 1) return;
+
+  const maxVisiblePages = 8;
+  const startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+  const endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+  // Prev arrow
+  const prev = document.createElement("li");
+  prev.className = "pagination__list";
+  prev.innerHTML = `
+    <a class="pagination__item--arrow link" onclick="changePage(${Math.max(1, currentPage - 1)})" aria-label="Previous">
+      <i class="bi bi-chevron-left"></i>
+    </a>`;
+  paginationContainer.appendChild(prev);
+
+  // Pages
+  for (let i = startPage; i <= endPage; i++) {
+    const li = document.createElement("li");
+    li.className = "pagination__list";
+    li.innerHTML = i === currentPage
+      ? `<span class="pagination__item pagination__item--current">${i}</span>`
+      : `<a class="pagination__item link" onclick="changePage(${i})">${i}</a>`;
+    paginationContainer.appendChild(li);
+  }
+
+  // Next arrow
+  const next = document.createElement("li");
+  next.className = "pagination__list";
+  next.innerHTML = `
+    <a class="pagination__item--arrow link" onclick="changePage(${Math.min(totalPages, currentPage + 1)})" aria-label="Next">
+      <i class="bi bi-chevron-right"></i>
+    </a>`;
+  paginationContainer.appendChild(next);
+}
+
+function changePage(page) {
+  loadProducts(null, page, true); // Preserve active search filters when changing page
+}
+
+categoryLinks.forEach(link => {
+  link.addEventListener("click", function (e) {
+    e.preventDefault();
+    const categoryText = this.querySelector(".widget__categories--sub__menu--text")?.innerText.trim();
+    if (categoryText) {
+      loadProducts(categoryText, 1, false); // Clear search filters when selecting browsing category
+    }
+  });
+});
+
+// Load initial products using existing URL params
+loadProducts(null, 1, true);
 </script>
-
-
   
 </body>
 </html>

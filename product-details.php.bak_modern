@@ -44,6 +44,89 @@ ensureSession();
 }
 </style>
 
+<style>
+/* Dark background overlay */
+#quoteModal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Modal box */
+#quoteModal .modal-content {
+  background: white;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 550px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  overflow: hidden; /* prevent header overlap */
+}
+
+/* Blue sticky header */
+#quoteModal .modal-header {
+  background: #e63946;
+  color: white;
+  padding: 15px;
+  font-size: 18px;
+  font-weight: bold;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Close button */
+#quoteModal .modal-header .close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+/* Scrollable body */
+#quoteModal .modal-body {
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* Input styling */
+#quoteModal input, #quoteModal textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+/* Submit button */
+#quoteModal button[type="submit"] {
+  background: #e63946;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  cursor: pointer;
+}
+</style>
 
 
 </head>
@@ -289,7 +372,7 @@ $conn->close();
               </a>
             </div>
             
-            <a href="#" onclick="openQuoteModal(event, '<?= $product['id'] ?>', '<?= htmlspecialchars($title, ENT_QUOTES) ?>', '<?= $product['price'] ?>', '<?= $product['mileage'] ?>')" class="gcp-btn py-3 justify-content-center text-center" style="background: transparent; border: 2px solid #142b64; color: #142b64 !important; font-size: 14.5px; border-radius: 6px; font-family:'Inter', sans-serif;">
+            <a href="#" onclick="openQuoteModal(event)" class="gcp-btn py-3 justify-content-center text-center" style="background: transparent; border: 2px solid #142b64; color: #142b64 !important; font-size: 14.5px; border-radius: 6px; font-family:'Inter', sans-serif;">
               <i class="bi bi-chat-left-quote me-2"></i> GET A CUSTOM QUOTE
             </a>
           </div>
@@ -412,6 +495,48 @@ function updatePrice(sel) {
         <!-- End shipping section -->
     </main>
 
+    <!-- Custom Quote Modal -->
+<div id="quoteModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 class="modal-title" >Get Custom Quote</h3>
+      <button type="button" class="close-btn" onclick="closeQuoteModal()">&times;</button>
+    </div>
+
+    <div class="modal-body">
+      <form id="quoteForm">
+        <!-- your form fields here -->
+        <label>Enter Your Name*</label>
+        <input type="text" name="name" required>
+
+        <label>Enter Your Email*</label>
+        <input type="email" name="email" required>
+
+        <label>Contact Number*</label>
+        <input type="text" name="phone" required>
+
+        <label>Zipcode*</label>
+        <input type="text" name="zipcode" required>
+
+        <label>Preferred Price*</label>
+        <input type="text" name="price" required>
+
+        <label>Preferred Miles*</label>
+        <input type="text" name="miles" required>
+
+        <label>Notes</label>
+        <textarea name="notes"></textarea>
+
+        <label>Need a mechanic?</label>
+          <input type="radio" name="mechanic" value="Yes" required> Yes
+           <input type="radio" name="mechanic" value="No" required> No
+
+        <br><br>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
 
 
 
@@ -738,6 +863,30 @@ function handleAddToCart(event) {
 </script>
 
 
+<script>
+function openQuoteModal(e) {
+  e.preventDefault();
+  document.getElementById('quoteModal').style.display = 'flex';
+}
+function closeQuoteModal() {
+  document.getElementById('quoteModal').style.display = 'none';
+}
+
+document.getElementById('quoteForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  let formData = new FormData(this);
+  fetch('getcustomquote.php', {
+    method: 'POST',
+    body: formData
+  })
+  .then(res => res.text())
+  .then(() => {
+    alert("Your request has been submitted!");
+    closeQuoteModal();
+  })
+  .catch(() => alert("Error submitting form."));
+});
+</script>
   
 </body>
 </html>

@@ -1087,7 +1087,8 @@ function renderProducts() {
       priceDisplay = '$' + rawPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
 
-    const stockText = product.in_stock === 1 ? "In Stock" : "Out of Stock";
+    const isReadyToShip = (parseInt(product.id) % 2 === 0);
+    const stockText = product.in_stock === 1 ? (isReadyToShip ? "READY TO SHIP" : "AVAILABLE") : "Out of Stock";
     const stockClass = product.in_stock === 1 ? "gcp-prod-card__badge--stock text-success" : "gcp-prod-card__badge--grade bg-secondary text-white";
 
     const el = document.createElement("div");
@@ -1160,10 +1161,10 @@ function renderProducts() {
           <!-- Actions -->
           <div class="gcp-prod-card__actions">
             <a href="product-details.php?id=${product.id}" class="gcp-prod-card__btn gcp-prod-card__btn--details">
-              <i class="bi bi-eye"></i> More Opts
+              View Details
             </a>
-            <button class="gcp-prod-card__btn gcp-prod-card__btn--add" onclick="handleAddToCart(event)">
-              <i class="bi bi-basket"></i> Add to Cart
+            <button class="gcp-prod-card__btn gcp-prod-card__btn--add" onclick="openQuoteModal(event, '${product.id}', '${product.title.replace(/'/g, "\\'")}', '${product.price}', '${displayMileage}')">
+              Get Quote
             </button>
           </div>
         </div>
